@@ -1,5 +1,5 @@
-defmodule Formatters.AlbergueGranCanaria do
-  def format_pets(pets) do
+defmodule Builders.AlbergueGranCanaria do
+  def build_json(pets) do
     Enum.map(pet, fn pet -> build_pet_info_json(pet) end)
   end
 
