@@ -13,9 +13,8 @@ defmodule PetsScrapper do
 
   """
   def scrape do
-    Scrapers.AlbergueGranCanaria.fetch_pets_urls()
-      |> Scrapers.AlbergueGranCanaria.fetch_pets()
+    Scrapers.AlbergueGranCanaria.get_pets()
       |> Builders.AlbergueGranCanaria.build_json()
-      |> Handlers.AlbergueGranCanaria.store_pets()
+      # |> Handlers.AlbergueGranCanaria.store_pets()
   end
 end
