@@ -7,15 +7,34 @@ defmodule Builders.AlbergueGranCanaria do
   defp build_pet_info_json(pet) do
     %{
       name: extract_name(pet),
-      pet_code: extrac_code(pet),
+      email: "",
       kind: extract_pet_type(pet),
+      status: "Buscando casa",
       breed: extract_breed(pet),
+      size: extrac_size(pet),
+      location: "",
+      pet_card_url: build_card_url(pet),
+      info: build_info(pet),
+      image: "",
       age: extract_age(pet),
       sex: extract_sex(pet),
-      size: extrac_size(pet),
       character: extrac_character(pet),
+      pet_code: extrac_code(pet),
       checksum: build_checksum(pet)
     }
+  end
+
+  defp build_info(pet) do
+    """
+    #{extract_name(pet)} es un #{extract_pet_type(pet)} que se encuentras actualmente
+    en el albergue insular de animales de las palmas de gran canaria. Para mas informacion
+    le rogamos que se ponga en contacto con el albergue a travez del siguiente enlace:
+    #{build_card_url(pet)}
+    """
+  end
+
+  defp build_card_url(pet) do
+    "https://www.alberguegrancanaria.com/animal/#{extrac_code(pet)}"
   end
 
   defp extract_name(pet) do
