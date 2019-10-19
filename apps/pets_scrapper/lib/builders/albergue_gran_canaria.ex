@@ -12,15 +12,17 @@ defmodule Builders.AlbergueGranCanaria do
       status: "Buscando casa",
       breed: extract_breed(pet),
       size: extrac_size(pet),
-      location: "",
-      pet_card_url: build_card_url(pet),
+      location: "Camino Rosa Silva, 61, 35415 Bañaderos, Las Palmas, España",
+      latitud: 28.1414502,
+      longitud: -15.5045266,
+      pet_card_url: build_card_url(pet), #  we need to this field to items table
       info: build_info(pet),
-      image: "",
-      age: extract_age(pet),
-      sex: extract_sex(pet),
-      character: extrac_character(pet),
-      pet_code: extrac_code(pet),
-      checksum: build_checksum(pet)
+      image: build_image_url,
+      age: extract_age(pet), #  we need to this field to items table
+      sex: extract_sex(pet), #  we need to this field to items table
+      character: extrac_character(pet), #  we need to this field to items table
+      pet_code: extrac_code(pet), #  we need to this field to items table
+      checksum: build_checksum(pet) #  we need to this field to items table
     }
   end
 
@@ -35,6 +37,11 @@ defmodule Builders.AlbergueGranCanaria do
 
   defp build_card_url(pet) do
     "https://www.alberguegrancanaria.com/animal/#{extrac_code(pet)}"
+  end
+
+  defp build_image_url do
+    # we need to somehow bild the url where the image will be located.
+    # alternatively we could use the image url from albergue website
   end
 
   defp extract_name(pet) do
