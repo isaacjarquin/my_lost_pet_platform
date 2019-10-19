@@ -17,7 +17,7 @@ defmodule Builders.AlbergueGranCanaria do
       longitud: -15.5045266,
       pet_card_url: build_card_url(pet), #  we need to this field to items table
       info: build_info(pet),
-      image: build_image_url,
+      image: extract_image_url(pet),
       age: extract_age(pet), #  we need to this field to items table
       sex: extract_sex(pet), #  we need to this field to items table
       character: extrac_character(pet), #  we need to this field to items table
@@ -39,13 +39,35 @@ defmodule Builders.AlbergueGranCanaria do
     "https://www.alberguegrancanaria.com/animal/#{extrac_code(pet)}"
   end
 
-  defp build_image_url do
-    # we need to somehow bild the url where the image will be located.
-    # alternatively we could use the image url from albergue website
+  defp extract_image_url(pet) do
+    if image_from_link(pet) do
+      image_from_link(pet)
+    else
+      image_from_img_attribute(pet)
+    end
+  end
+
+  defp image_from_link(pet) do
+    pet
+      |> Floki.find("div.ficha-izq")
+      |> Floki.find("div.foto_ficha")
+      |> Floki.find("a")
+      |> Floki.attribute("href")
+      |> Enum.at(0)
+  end
+
+  defp image_from_img_attribute(pet) do
+    pet
+      |> Floki.find("div.ficha-izq")
+      |> Floki.find("div.foto_ficha")
+      |> Floki.find("img")
+      |> Floki.attribute("data-lazy")
+      |> Enum.at(0)
   end
 
   defp extract_name(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("h2")
       |> Floki.find("span")
       |> Floki.text
@@ -53,12 +75,14 @@ defmodule Builders.AlbergueGranCanaria do
 
   defp extrac_code(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.codigo_ficha")
       |> Floki.text
   end
 
   def extract_breed(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(0)
       |> Floki.find("div.wrapper-entidad div")
@@ -67,6 +91,7 @@ defmodule Builders.AlbergueGranCanaria do
 
   def extract_age(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(2)
       |> Floki.find("div.wrapper-entidad div")
@@ -75,6 +100,7 @@ defmodule Builders.AlbergueGranCanaria do
 
   def extract_sex(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(3)
       |> Floki.find("div.wrapper-entidad  div")
@@ -83,6 +109,7 @@ defmodule Builders.AlbergueGranCanaria do
 
   def extrac_size(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(4)
       |> Floki.find("div.wrapper-entidad div")
@@ -91,6 +118,7 @@ defmodule Builders.AlbergueGranCanaria do
 
   def extrac_character(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(7)
       |> Floki.find("div.wrapper-entidad div")
@@ -99,6 +127,7 @@ defmodule Builders.AlbergueGranCanaria do
 
   def extract_pet_type(pet) do
     pet
+      |> Floki.find("div.ficha-dch")
       |> Floki.find("div.item_ficha")
       |> Enum.at(0)
       |> Floki.find("div.wrapper-entidad")

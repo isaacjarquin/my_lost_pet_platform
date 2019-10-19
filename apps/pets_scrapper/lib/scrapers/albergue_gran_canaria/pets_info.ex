@@ -6,9 +6,7 @@ defmodule Scrapers.AlbergueGranCanaria.PetsInfo do
   end
 
   defp extract_info(pet) do
-    pet
-      |> Floki.find("div.contenido_pagina")
-      |> Floki.find("div.ficha-dch")
+    pet |> Floki.find("div.contenido_pagina")
   end
 
   defp request_pet_info(slug) do
