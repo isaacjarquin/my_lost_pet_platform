@@ -1,12 +1,18 @@
 defmodule Builders.AlbergueGranCanaria do
+  use HTTPoison.Base
+
   def build_json(pets) do
-    Enum.map(pets, fn pet -> build_pet_info_json(pet) end)
+    pets |> build_pets
+  end
+
+  defp build_pets(pets) do
+    Enum.map(pets, fn pet -> build_pet(pet) end)
   end
 
 
-  defp build_pet_info_json(pet) do
+  defp build_pet(pet) do
     %{
-      name: extract_name(pet),
+      pet_name: extract_name(pet), # in items api this is the name of the person who found the pet   
       email: "",
       kind: extract_pet_type(pet),
       status: "Buscando casa",

@@ -12,9 +12,10 @@ defmodule PetsScrapper do
       :world
 
   """
+
   def scrape do
     Scrapers.AlbergueGranCanaria.get_pets()
       |> Builders.AlbergueGranCanaria.build_json()
-      # |> Handlers.AlbergueGranCanaria.store_pets()
+      # |> Services.PetsApi.send_pets()
   end
 end
